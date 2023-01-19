@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Verney2073/busboard/issues"
   },
-  "homepage": "https://github.com/Verney2073/busboard#readme"
+  "homepage": "https://github.com/Verney2073/busboard#readme",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
 }

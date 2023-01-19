@@ -1,7 +1,14 @@
 import './postcodeFinder.js';
 import { postcodeToCoords } from './postcodeFinder.js';
+//note below import needs to be installed with npm first
+import readline from 'readline-sync';
 
-async function nextBuses(postcode) {
+
+async function nextBuses() {
+
+    console.log("enter your postcode:");
+    let postcode = readline.prompt();
+
     const coords = await postcodeToCoords(postcode);
     console.log(typeof (coords[0]), coords[0])
 
