@@ -2,7 +2,6 @@ import { postcodeToCoords } from './postcodeFinder.js';
 //note readline below needs to be installed with npm on the command line before importing
 import readline from 'readline-sync';
 
-
 async function nextBuses() {
 
     const coords = await postcodeToCoords();
@@ -10,15 +9,12 @@ async function nextBuses() {
     const response = await fetch(`https://api.tfl.gov.uk/StopPoint/?lat=${coords[0]}&lon=${coords[1]}&stopTypes=NaptanPublicBusCoachTram`);
     const busBoard = await response.json();
     const stoppingPoints = busBoard.stopPoints.sort((stopA, stopB) => stopA.distance - stopB.distance);
-
     const closestStop = stoppingPoints[0];
+
     //const secondClosestStop = stoppingPoints[1];
 
     const busesServingStopResponse = await fetch(`https://api.tfl.gov.uk/StopPoint/${closestStop.naptanId}/Arrivals`)
     const busesServingStopJSON = await busesServingStopResponse.json();
-
-    //console.log(`the closest stop is ${closestStop.commonName}, stop letter ${closestStop.stopLetter}, which is ${Math.trunc(closestStop.distance)}m away`);
-    //console.log(`the second closest stop is ${closestStop.commonName} which is ${Math.trunc(secondClosestStop.distance)}m away`);
 
     //sort() must come before map() here as once map has outputted an array, the bus.timeToStation object key doesn't exist anymroe
     const busInfo = busesServingStopJSON
@@ -47,13 +43,10 @@ async function nextBuses() {
                 default:
                     ordinalSuffix = 'th'
             }
+            //1st bus is at the 0th index, hence the +1 below
             console.log(`The ${i + 1}${ordinalSuffix} bus will be the ${busInfo[i][0]} towards ${busInfo[i][1]} which will arrive in ${busInfo[i][2]} minutes`)
         };
     }
-
-    // console.log(`The 1st bus ${busInfo[0][0]} with direction ${busInfo[0][1]} will arrive in ${busInfo[0][2]} minutes`)
-    // console.log(`The 2nd bus ${busInfo[1][0]} with direction ${busInfo[1][1]} will arrive in ${busInfo[1][2]} minutes`)
-    // console.log(`The 3rd bus ${busInfo[2][0]} with direction ${busInfo[2][1]} will arrive in ${busInfo[2][2]} minutes`)
 }
 
 nextBuses();
