@@ -21,6 +21,7 @@ async function nextBuses() {
         .sort((busA, busB) => busA.timeToStation - busB.timeToStation)
         .map(bus => [bus.lineId, bus.towards, Math.round(bus.timeToStation / 60)]);
 
+    //determines how many buses to show, max 5; 
     const busesToDisplay = busInfo.length <= 5 ? busInfo.length : 5;
     console.log(`Your closest bus stop is ${closestStop.commonName}, stop letter ${closestStop.stopLetter}, which is ${Math.trunc(closestStop.distance)}m away.\nThe next buses are:`);
 
