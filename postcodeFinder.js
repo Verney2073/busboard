@@ -1,12 +1,6 @@
 //note readline below needs to be installed with npm on the command line before importing
 import readline from 'readline-sync';
 
-// OPTION 1 - Create a function to package up checking the formatting of the postcode 
-//function postCodeFormatter (postcode) {}
-
-// OPTION 2 - Create a do/while loop and handle the console log being different the first time the user inputs;
-
-
 export async function postcodeToCoords() {
     let postcodeCheck = false;
     let postcodeNoWS;
@@ -25,8 +19,15 @@ export async function postcodeToCoords() {
         const postCodeJSON = await postCodeResponse.json();
         const latitude = postCodeJSON.result.latitude;
         const longitude = postCodeJSON.result.longitude;
-        const coords = [latitude, longitude]
-        return coords;
+        const coords = [latitude, longitude];
+        console.log(`${postCodeJSON.result.region}`)
+        if (postCodeJSON.result.region == "London") {
+            return coords;
+        }
+        else {
+            console.log("Busboard only works for the London region. Please enter a London postcode")
+            return null;
+        }
     }
     catch {
         console.log("The API returned no results. Is this a valid postcode?");
